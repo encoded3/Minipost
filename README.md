@@ -21,7 +21,7 @@ pip install -r requirements.txt
 git clone https://github.com/encoded3/Minipost.git
 cd minipost
 python -m venv env
-.\Scripts\activate.bat
+.\env\Scripts\activate.bat
 pip install -r requirements.txt
 ```
 
