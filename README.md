@@ -7,6 +7,16 @@ Minipost - это простой клиент для [Minimail](https://github.c
 
 ### Установка
 
+Для установки в UNIX-подобных систем:
+```bash
+git clone https://github.com/encoded3/Minipost.git
+cd minipost
+python -m venv env
+source ./env/bin/activate
+pip install -r requirements.txt
+```
+
+Для установки в Windows:
 ```bash
 git clone https://github.com/encoded3/Minipost.git
 cd minipost
