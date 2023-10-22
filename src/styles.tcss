@@ -1,0 +1,36 @@
+Button {
+    width: 43;
+    border: tall white;
+    background: #282828;
+    color: white;
+    margin: 1 1;
+}
+
+Button:hover {
+    background: #272727;
+    color: #646464;
+    border: tall #646464;
+}
+
+Input {
+    margin: 1 2;
+    border: tall #171717;
+}
+
+Input:focus {
+    border: tall cyan;
+}
+
+TextArea {
+    margin: 1 2;
+    border: tall #171717;
+}
+
+TextArea:focus {
+    border: tall cyan;
+}
+
+Checkbox {
+    margin: 1 2;
+    border: tall #171717;
+}
