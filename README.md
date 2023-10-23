@@ -3,7 +3,7 @@ Minipost - это простой клиент для [Minimail](https://github.c
 
 ## Установка и запуск
 
-Для исправной работы клиента должны быть установлены [Python](https://www.python.org/downloads/) и [Git](https://git-scm.com/downloads). После чего склонируйте репозиторий.
+Для исправной работы клиента должны быть установлены [Python](https://www.python.org/downloads/) (вместе с Pip) и [Git](https://git-scm.com/downloads). После чего склонируйте репозиторий.
 
 ### Установка
 
