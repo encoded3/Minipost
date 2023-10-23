@@ -31,17 +31,21 @@ def getMessages():
     }
 
     r = None
-    if config.minimail["useproxy"]:
-        r = requests.post(
-                            address+"/login", 
-                            data=data, 
-                            proxies=proxy
-                         )
-    else:
-        r = requests.post(
-                            address+"/login", 
-                            data=data
-                         )
+
+    try:
+        if config.minimail["useproxy"]:
+            r = requests.post(
+                                address+"/login", 
+                                data=data, 
+                                proxies=proxy
+                            )
+        else:
+            r = requests.post(
+                                address+"/login", 
+                                data=data
+                            )
+    except:
+        return ["Не удалось загрузить сообщения :/"]
 
     soup = BeautifulSoup(r.text, "html.parser")
 
