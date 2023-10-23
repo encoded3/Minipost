@@ -18,13 +18,11 @@ class SendPost(Screen):
     def compose(self):
         self.messageArea = TextArea("Сообщение", theme="vscode_dark")
         self.recipient = Input(placeholder="Название почты из конфига Minipost или b32 ссылка на почту minimail")
-        self.useproxy = Checkbox("Использовать прокси")
 
         yield Header(show_clock=True)
 
         yield self.recipient
         yield self.messageArea
-        yield self.useproxy
         yield Button("Отправить", id="send")
 
         yield Footer()
@@ -32,7 +30,7 @@ class SendPost(Screen):
     def on_button_pressed(self, event: Button.Pressed):
         if event.button.id == "send":
             if self.recipient.value != "":
-                status = sendMessage(nickname, self.messageArea.text, self.recipient.value, self.useproxy.value)
+                status = sendMessage(nickname, self.messageArea.text, self.recipient.value)
                 
                 if status == 200:
                     self.notify("Отправлено!", title="MiniPost")
@@ -41,18 +39,14 @@ class SendPost(Screen):
 
 
 class CheckMail(Screen):
-    messages = getMessages()
+    label = Label("Загрузка...")
 
     CSS_PATH = "styles.tcss"
     BINDINGS = [("q", "pop_screen", "Выйти в главное меню")]
 
-    def on_button_pressed(self, event: Button.Pressed):
-        if event.button.id == "exit":
-            pass
 
-    def compose(self):
-        yield Header(show_clock=True)
-        yield Title("Входящие\n")
+    def on_mount(self):
+        self.messages = getMessages()
 
         text = ""
         for message in self.messages:
@@ -70,15 +64,21 @@ class CheckMail(Screen):
             text += message + "\n\n"
             text += "-"*separatorLength + "\n\n\n"
 
+        self.label.update(text)
 
-        yield ScrollableContainer( Label(text) )
+
+    def compose(self):
+        yield Header(show_clock=True)
+        yield Title("Входящие\n")
+
+        yield ScrollableContainer( self.label )
         
         yield Footer()
 
 
 class Main(App):
     CSS_PATH = "styles.tcss"
-    BINDINGS = [("q", "pop_screen", "Выйти")]
+    BINDINGS = [("q", "quit", "Выйти")]
 
     def on_button_pressed(self, event: Button.Pressed):
         match event.button.id:

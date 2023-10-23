@@ -1,9 +1,6 @@
 import config
 import requests
-
-import AdvancedHTMLParser
-HTML = AdvancedHTMLParser.AdvancedHTMLParser()
-
+from bs4 import BeautifulSoup
 try:
     str(config.minimail["address"])
 
@@ -46,26 +43,21 @@ def getMessages():
                             data=data
                          )
 
-    HTML.parseStr(r.text)
+    soup = BeautifulSoup(r.text, "html.parser")
 
-    parsedMessages = HTML.getElementsByTagName("a")
+    parsedMessages = soup.find_all("li")
     
     messages = []
     for message in parsedMessages:
-        #message = AdvancedHTMLParser.Tags.AdvancedTag
-        
-        #Text = message[0].textContent
-        Nodes = message.getAllNodes()
-
-        Text = Nodes[1].textContent
-        By = Nodes[3].textContent
+        Text = message.find_all("div")[0].text
+        By = message.find_all("div")[1].text
 
         messages.append(Text + "\n\n"+By)
     
     return messages
 
 
-def sendMessage(username:str, message:str, address:str, useproxy:bool):
+def sendMessage(username:str, message:str, address:str):
     if address in config.mails.keys():
         address = config.mails[address]
 
@@ -79,7 +71,7 @@ def sendMessage(username:str, message:str, address:str, useproxy:bool):
 
     r = None
     try:
-        if useproxy:
+        if config.useProxyForSend:
             r = requests.post(
                                 address+"/send", 
                                 data=data, 
@@ -91,6 +83,6 @@ def sendMessage(username:str, message:str, address:str, useproxy:bool):
                                 data=data
                             )
     except:
-        return None
+        return
     
     return r.status_code
